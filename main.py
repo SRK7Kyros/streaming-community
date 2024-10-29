@@ -1,22 +1,15 @@
-#from math import e
-from pyicloud.base import DriveService
 import requests as r
-import bs4
-from session import session
 import os
-from pyicloud import PyiCloudService, exceptions
-import sys
-import time
+from pyicloud import PyiCloudService
 import yt_dlp
 from scuapi import API
 import json
-from typing import List, Dict, TypedDict, Tuple
-from functools import reduce
-import operator
+from typing import List, Dict, TypedDict
+from pyicloudcustom import cloudMakeDirs, cloudNestedDir, getApi, upload
 
 libraryPathname= "library.json"
 pathname = "Streaming Community"
-url = "https://streamingcommunity.computer/titles/7449-teenage-mutant-ninja-turtles-tartarughe-ninja"
+urls = open("urls.txt").readlines()
 
 
 class EpisodeData(TypedDict):
@@ -28,15 +21,25 @@ class EpisodeData(TypedDict):
 class EntryData(TypedDict):
     name: str
     url: str
-    totalEpisodes: int
-    episodes: List[EpisodeData]
+    isMovie: bool
+    totalEpisodes: int | None
+    episodes: List[EpisodeData] | None
+    year: int
+    MovieIsOnCloud: bool =  False
 
 Library = Dict[str, EntryData]
 
-def filename(entry: EntryData, episode: EpisodeData) -> str:
-    with yt_dlp.YoutubeDL() as ydl:
-        ext = ydl.extract_info(episode["url"], download = False)["ext"]
-        return f"{entry['name']} - {zfill(entry, episode)} - {episode['title']}.{ext}"
+def filename(entry: EntryData, episode: EpisodeData | None, isMovie: bool) -> str:
+    if not isMovie:
+        with yt_dlp.YoutubeDL() as ydl:
+            ext = ydl.extract_info(episode["url"], download = False)["ext"]
+            return f"{entry['name']} - {zfill(entry, episode)} - {episode['title']}.{ext}"
+    else:
+        with yt_dlp.YoutubeDL() as ydl:
+            info = ydl.extract_info(entry["url"], download = False)
+            with open(f"metadata.json", 'w') as f:
+                f.write(json.dumps(info, indent = 4))
+            return f"{entry['name']} ({entry['year']}) {info['formats'][-1]['height']}p.{info['ext']}"
 
 def makeEpisodes(res: dict) -> List[EpisodeData]:
     return [{
@@ -47,77 +50,20 @@ def makeEpisodes(res: dict) -> List[EpisodeData]:
     } for ep in res["episodeList"]]
 
 def makeEntry(res: dict) -> EntryData:
-    return EntryData(name = res["name"], url = res["url"], totalEpisodes = len(res["episodeList"]), episodes = episodes)
-
-def getApi():
-    api = PyiCloudService('giulio030208@icloud.com', 'Bud1nazz@')
-    verifyApi(api)
-    api.drive.dir()
-    api._drive.params["clientId"] = api.client_id
-    return api
-    
-def verifyApi(api):
-    if api.requires_2fa:
-      print("Two-factor authentication required.")
-      code = input("Enter the code you received of one of your approved devices: ")
-      result = api.validate_2fa_code(code)
-      print("Code validation result: %s" % result)
-
-      if not result:
-          print("Failed to verify security code")
-          sys.exit(1)
-
-      if not api.is_trusted_session:
-          print("Session is not trusted. Requesting trust...")
-          result = api.trust_session()
-          print("Session trust result %s" % result)
-
-          if not result:
-              print("Failed to request trust. You will likely be prompted for the code again in the coming weeks")
-    elif api.requires_2sa:
-      import click
-      print("Two-step authentication required. Your trusted devices are:")
-
-      devices = api.trusted_devices
-      for i, device in enumerate(devices):
-          print(
-              "  %s: %s" % (i, device.get('deviceName',
-              "SMS to %s" % device.get('phoneNumber')))
-          )
-
-      device = click.prompt('Which device would you like to use?', default=0)
-      device = devices[device]
-      if not api.send_verification_code(device):
-          print("Failed to send verification code")
-          sys.exit(1)
-
-      code = click.prompt('Please enter validation code')
-      if not api.validate_verification_code(device, code):
-          print("Failed to verify verification code")
-          sys.exit(1)
+    data = None
+    isMovie = res["type"] == "Movie"
+    if isMovie:
+        data = EntryData(name = res["name"], url = res["url"], isMovie=isMovie, totalEpisodes = None, episodes = None, year=res["year"])
+    else:
+        episodes = makeEpisodes(res)
+        data = EntryData(name = res["name"], url = res["url"], isMovie=isMovie, totalEpisodes = len(res["episodeList"]), episodes = episodes, year=res["year"])
+    return data
 
 def verifyLibrary():
     if not os.path.exists(libraryPathname):
         print(f"{libraryPathname} not found, creating...")
         with open(libraryPathname, "w") as f:
             f.write("{}")
-
-def cloudMakeDirs(api: PyiCloudService, path: str):
-    parts = path.strip('/').split('/')
-    done = []
-    for part in parts:
-        cloudNestedDir(api, done).mkdir(part)
-        while part not in cloudNestedDir(api, done).dir():
-            api = getApi()
-            cloudNestedDir(api, done).mkdir(part)
-        done.append(part)
-
-def cloudNestedDir(api: PyiCloudService, path: str | List[str]) -> DriveService:
-    if type(path) is str: 
-        parts = path.strip("/").split("/")
-    else:
-        parts = path                  
-    return reduce(operator.getitem, parts, api.drive)
 
 def read() -> Library:
     verifyLibrary()
@@ -144,38 +90,19 @@ def makeDirsUnlessExistsThenChdir(path: str):
     makeDirsUnlessExists(path)
     os.chdir(path)
 
-def upload(entry: EntryData, episodes: List[EpisodeData], path: str, uploadPath: str, api: PyiCloudService):
-    cloudMakeDirs(api, uploadPath)
-    prev = os.getcwd()
-    makeDirsUnlessExistsThenChdir(path)
-    if path not in cloudNestedDir(api, uploadPath).dir():
-        for episode in episodes:
-            while filename(entry, episode) not in cloudNestedDir(api, uploadPath).dir():
-                try:
-                    print(f"Trying to upload {zfill(entry, episode)}")
-                    with open(filename(entry, episode), "rb") as f:
-                        cloudNestedDir(api, uploadPath).upload(f)
-                    break
-                except exceptions.PyiCloudAPIResponseException:
-                    print(f"failed, retrying {zfill(entry, episode)}")
-                    api = getApi()
-            os.chdir(prev)
-            lib = read()
-            lib[entry["name"]]["episodes"].append(episode)
-            save(lib)
-            makeDirsUnlessExistsThenChdir(path)
-            print(f"Finished uploading {zfill(entry, episode)}")
-    os.chdir(prev)
-
-def download(entry: EntryData, episodes: List[EpisodeData], path: str):
-    prev = os.getcwd()
-    makeDirsUnlessExistsThenChdir(path)
-    for ep in episodes:
+def download(entry: EntryData, episodes: List[EpisodeData] | None, path: str):
+    makeDirsUnlessExists(path)
+    if not entry["isMovie"]:
+        for ep in episodes:
+            with yt_dlp.YoutubeDL({
+                "outtmpl": os.path.join(path, filename(entry, ep, isMovie=entry["isMovie"]))
+            }) as yld:
+                yld.download([ep["url"] for ep in episodes])
+    else: 
         with yt_dlp.YoutubeDL({
-            "outtmpl": filename(entry, ep)
+            "outtmpl": os.path.join(path, filename(entry, None, isMovie=entry["isMovie"]))
         }) as yld:
-            yld.download([ep["url"] for ep in episodes])
-    os.chdir(prev)
+            yld.download([entry["url"]]) 
 
 def removeEpisode(entry: EntryData, episode: EpisodeData, path: str):
     #lib = read()
@@ -184,49 +111,64 @@ def removeEpisode(entry: EntryData, episode: EpisodeData, path: str):
     #if lib[entry["name"]]["episodes"] == []:
     #    lib -= {entry['name']: entry}
    # save(lib)
-    os.remove(f"{path}/{filename(entry, episode)}")
+    os.remove(f"{path}/{filename(entry, episode, isMovie=entry['isMovie'])}")
 
-def whatIsOnTheCloud(api: PyiCloudService, path: str, entry: EntryData) -> List[EpisodeData]:
-    list = cloudNestedDir(api, path).dir()
-    indexes = [episode.replace(f"{entry['name']} - S", "").split(" - ")[0] for episode in list]
-    episodes = []
-    for i in indexes:
-        season, episode = i.split("E")
-        rightEpisode = {}
-        for ep in entry["episodes"]:
-            episodeInEntry = int(ep["episode"])
-            seasonInEntry = int(ep["season"])
-            isRightEp = episodeInEntry == int(episode)
-            isRightSeason = seasonInEntry == int(season)
-            if isRightEp and isRightSeason:
-                rightEpisode = ep
-        url: str = rightEpisode["url"]
-        title: str = rightEpisode["title"]
-        ep = EpisodeData(season=int(season), episode=int(episode), title=str(title), url=url)
-        episodes.append(ep)
-    return episodes
+def whatIsOnTheCloud(api: PyiCloudService, path: str, entry: EntryData) -> EntryData:
+    onCloud = cloudNestedDir(api, path).dir()
+    if  entry["isMovie"]:
+        if filename(entry, None, isMovie=entry['isMovie']) not in onCloud:
+            entry["MovieIsOnCloud"] = False
+        else: 
+            entry['MovieIsOnCloud'] = True
+        return entry
+    else:
+        indexes = [episode.replace(f"{entry['name']} - S", "").split(" - ")[0] for episode in onCloud]
+        episodes = []
+        for i in indexes:
+            season, episode = i.split("E")
+            rightEpisode = {}
+            for ep in entry["episodes"]:
+                episodeInEntry = int(ep["episode"])
+                seasonInEntry = int(ep["season"])
+                isRightEp = episodeInEntry == int(episode)
+                isRightSeason = seasonInEntry == int(season)
+                if isRightEp and isRightSeason:
+                    rightEpisode = ep
+            url: str = rightEpisode["url"]
+            title: str = rightEpisode["title"]
+            ep = EpisodeData(season=int(season), episode=int(episode), title=str(title), url=url)
+            episodes.append(ep)
+            entry["episodes"] = episodes
+        return entry
 
-def getOnTheDamnCloudThenFuckOff(entry: EntryData, episodes: List[EpisodeData], path: str, api: PyiCloudService):
+def getOnTheDamnCloudThenFuckOff(entry: EntryData, episodes: List[EpisodeData] | None, path: str):
     cloudpath = f"Streaming Community/{path}"
+    api = getApi()
     cloudMakeDirs(api, cloudpath)
     api = getApi()
     cloud = whatIsOnTheCloud(api, cloudpath, entry)
-    episodes = [ep for ep in episodes if ep not in cloud]
-    for episode in episodes:
-        download(entry, [episode], f"content/{path}")
-        upload(entry, [episode], f"content/{path}", f"Streaming Community/{path}", api)
-        removeEpisode(entry, episode, f"content/{path}")
+    if entry["isMovie"] and  not entry["MovieIsOnCloud"]:
+            fname = filename(entry, None, entry['isMovie'])
+            download(entry, None, f"content/{path}")
+            upload(f"content/{path}", f"Streaming Community/", api)
+            os.remove(f"content/{fname}")
+    else:
+        episodes = [ep for ep in episodes if ep not in cloud]
+        for episode in episodes:
+            fname = filename(entry, episode, entry['isMovie'])
+            download(entry, [episode], f"content/{path}")
+            upload(f"content/{path}/{fname}", f"Streaming Community/{path}", api)
+            os.remove(f"content/{fname}")
 
-api = getApi()
+os.chdir(os.path.dirname(os.path.realpath(__file__)))
+
 sc = API("streamingcommunity.computer")
-res = sc.load(url)
+for url in urls:
+    res = sc.load(url)
 
-episodes = makeEpisodes(res)
-entry = makeEntry(res)
-
-downloaded = read()
-save(downloaded | {entry["name"]: entry})
-missing_episodes = [ep for ep in episodes if ep not in downloaded[entry["name"]]["episodes"]]
-getOnTheDamnCloudThenFuckOff(entry, episodes, entry['name'], api)
-
-makeDirsUnlessExists(f"content/{entry['name']}")
+    entry = makeEntry(res)
+    if entry['isMovie']:
+        getOnTheDamnCloudThenFuckOff(entry, None, '')
+    elif not entry['isMovie']:
+        episodes = makeEpisodes(res)
+        getOnTheDamnCloudThenFuckOff(entry, episodes, entry['name'])
