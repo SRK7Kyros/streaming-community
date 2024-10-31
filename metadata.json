@@ -1,0 +1,132 @@
+{
+    "id": "3249",
+    "title": "Venom - La furia di Carnage",
+    "release_date": "20210930",
+    "timestamp": 1620976745.0,
+    "modified_timestamp": 1730350804.0,
+    "description": "Dopo aver trovato un corpo ospite nel giornalista investigativo Eddie Brock, il simbionte alieno dovr\u00e0 affrontare un nuovo nemico, Carnage, alter ego del serial killer Cletus Kasady. Nella scena post credits del primo film, infatti, Eddie Brock in sella alla sua moto raggiunge la prigione di San Quentin per intervistare l'omicida. Durante il loro breve dialogo, Kasady preannuncia che riuscir\u00e0 a uscire dalla prigione e a compire una nuova carneficina. Il killer, infatti, riesce a evadere dal carcere, ospitando un simbionte alieno, il rosso Carnage, che seminer\u00e0 il terrore in citt\u00e0. Solo Brock e il suo Venom possono fermarlo.",
+    "playable_in_embed": true,
+    "formats": [
+        {
+            "format_id": "1200",
+            "format_index": null,
+            "url": "https://vixcloud.co/playlist/70997?type=video&rendition=480p&token=gKBn7xbKn-eCDOfa6a3W3g&expires=1735596229&b=1",
+            "manifest_url": "https://vixcloud.co/playlist/70997?b=1?&expires=1735596229",
+            "tbr": 1200.0,
+            "ext": "mp4",
+            "fps": null,
+            "protocol": "m3u8_native",
+            "preference": null,
+            "quality": null,
+            "has_drm": false,
+            "width": 854,
+            "height": 480,
+            "vcodec": "avc1.640028",
+            "acodec": "mp4a.40.2",
+            "dynamic_range": "SDR",
+            "resolution": "854x480",
+            "aspect_ratio": 1.78,
+            "http_headers": {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "Accept-Language": "en-us,en;q=0.5",
+                "Sec-Fetch-Mode": "navigate"
+            },
+            "video_ext": "mp4",
+            "audio_ext": "none",
+            "vbr": null,
+            "abr": null,
+            "format": "1200 - 854x480"
+        },
+        {
+            "format_id": "2150",
+            "format_index": null,
+            "url": "https://vixcloud.co/playlist/70997?type=video&rendition=720p&token=NXjGxYaspPj98c4a-lPOvQ&expires=1735596229&b=1",
+            "manifest_url": "https://vixcloud.co/playlist/70997?b=1?&expires=1735596229",
+            "tbr": 2150.0,
+            "ext": "mp4",
+            "fps": null,
+            "protocol": "m3u8_native",
+            "preference": null,
+            "quality": null,
+            "has_drm": false,
+            "width": 1280,
+            "height": 720,
+            "vcodec": "avc1.640028",
+            "acodec": "mp4a.40.2",
+            "dynamic_range": "SDR",
+            "resolution": "1280x720",
+            "aspect_ratio": 1.78,
+            "http_headers": {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "Accept-Language": "en-us,en;q=0.5",
+                "Sec-Fetch-Mode": "navigate"
+            },
+            "video_ext": "mp4",
+            "audio_ext": "none",
+            "vbr": null,
+            "abr": null,
+            "format": "2150 - 1280x720"
+        }
+    ],
+    "subtitles": {
+        "ita": [
+            {
+                "url": "https://vixcloud.co/playlist/70997?type=subtitle&rendition=ita&token=8i7BpjWI8gYhrM_5WPuiyA&expires=1735596229&b=1",
+                "ext": "unknown_video"
+            }
+        ],
+        "eng": [
+            {
+                "url": "https://vixcloud.co/playlist/70997?type=subtitle&rendition=eng&token=8i7BpjWI8gYhrM_5WPuiyA&expires=1735596229&b=1",
+                "ext": "unknown_video"
+            }
+        ]
+    },
+    "webpage_url": "https://streamingcommunity.computer/watch/3249",
+    "original_url": "https://streamingcommunity.computer/watch/3249",
+    "webpage_url_basename": "3249",
+    "webpage_url_domain": "streamingcommunity.computer",
+    "extractor": "StreamingCommunity",
+    "extractor_key": "StreamingCommunity",
+    "playlist": null,
+    "playlist_index": null,
+    "display_id": "3249",
+    "fulltitle": "Venom - La furia di Carnage",
+    "upload_date": "20210514",
+    "modified_date": "20241031",
+    "release_year": 2021,
+    "requested_subtitles": null,
+    "_has_drm": null,
+    "epoch": 1730412227,
+    "format_id": "2150",
+    "format_index": null,
+    "url": "https://vixcloud.co/playlist/70997?type=video&rendition=720p&token=NXjGxYaspPj98c4a-lPOvQ&expires=1735596229&b=1",
+    "manifest_url": "https://vixcloud.co/playlist/70997?b=1?&expires=1735596229",
+    "tbr": 2150.0,
+    "ext": "mp4",
+    "fps": null,
+    "protocol": "m3u8_native",
+    "preference": null,
+    "quality": null,
+    "has_drm": false,
+    "width": 1280,
+    "height": 720,
+    "vcodec": "avc1.640028",
+    "acodec": "mp4a.40.2",
+    "dynamic_range": "SDR",
+    "resolution": "1280x720",
+    "aspect_ratio": 1.78,
+    "http_headers": {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-us,en;q=0.5",
+        "Sec-Fetch-Mode": "navigate"
+    },
+    "video_ext": "mp4",
+    "audio_ext": "none",
+    "vbr": null,
+    "abr": null,
+    "format": "2150 - 1280x720"
+}

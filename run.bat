@@ -1,2 +1,1 @@
-python main.py
-PAUSE
+runas /user:Giulio /savecred "cmd /k cd /d %CD% && python main.py"

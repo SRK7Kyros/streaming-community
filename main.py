@@ -47,7 +47,7 @@ def makeEpisodes(res: dict) -> List[EpisodeData]:
         "episode": ep["episode"], 
         "title": ep["name"],
         "url": ep["url"],
-    } for ep in res["episodeList"]]
+    } for i, ep in enumerate(res["episodeList"])]
 
 def makeEntry(res: dict) -> EntryData:
     data = None
@@ -115,7 +115,7 @@ def removeEpisode(entry: EntryData, episode: EpisodeData, path: str):
 
 def whatIsOnTheCloud(api: PyiCloudService, path: str, entry: EntryData) -> EntryData:
     onCloud = cloudNestedDir(api, path).dir()
-    if  entry["isMovie"]:
+    if entry["isMovie"]:
         if filename(entry, None, isMovie=entry['isMovie']) not in onCloud:
             entry["MovieIsOnCloud"] = False
         else: 
@@ -126,39 +126,28 @@ def whatIsOnTheCloud(api: PyiCloudService, path: str, entry: EntryData) -> Entry
         episodes = []
         for i in indexes:
             season, episode = i.split("E")
-            rightEpisode = {}
-            for ep in entry["episodes"]:
-                episodeInEntry = int(ep["episode"])
-                seasonInEntry = int(ep["season"])
-                isRightEp = episodeInEntry == int(episode)
-                isRightSeason = seasonInEntry == int(season)
-                if isRightEp and isRightSeason:
-                    rightEpisode = ep
-            url: str = rightEpisode["url"]
-            title: str = rightEpisode["title"]
-            ep = EpisodeData(season=int(season), episode=int(episode), title=str(title), url=url)
+            rightEpisode = [ep for ep in entry["episodes"] if ep["season"] == int(season) and ep["episode"] == int(episode)][0]
+            ep = EpisodeData(season=int(season), episode=int(episode), title=str(rightEpisode["title"]), url=rightEpisode["url"])
             episodes.append(ep)
-            entry["episodes"] = episodes
-        return entry
+        return episodes
 
 def getOnTheDamnCloudThenFuckOff(entry: EntryData, episodes: List[EpisodeData] | None, path: str):
     cloudpath = f"Streaming Community/{path}"
     api = getApi()
     cloudMakeDirs(api, cloudpath)
-    api = getApi()
     cloud = whatIsOnTheCloud(api, cloudpath, entry)
-    if entry["isMovie"] and  not entry["MovieIsOnCloud"]:
+    if entry["isMovie"] and not entry["MovieIsOnCloud"]:
             fname = filename(entry, None, entry['isMovie'])
             download(entry, None, f"content/{path}")
-            upload(f"content/{path}", f"Streaming Community/", api)
+            upload(os.path.join(f"content/{path}", fname), f"Streaming Community/{path}", api)
             os.remove(f"content/{fname}")
-    else:
+    elif not entry["isMovie"]:
         episodes = [ep for ep in episodes if ep not in cloud]
         for episode in episodes:
             fname = filename(entry, episode, entry['isMovie'])
             download(entry, [episode], f"content/{path}")
             upload(f"content/{path}/{fname}", f"Streaming Community/{path}", api)
-            os.remove(f"content/{fname}")
+            os.remove(f"content/{path}/{fname}")
 
 os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
