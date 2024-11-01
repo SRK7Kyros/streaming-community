@@ -79,14 +79,16 @@ def download(entry: EntryData, episodes: List[EpisodeData] | None, path: str):
             with yt_dlp.YoutubeDL({
                 "outtmpl": os.path.join(path, filename(entry, ep, isMovie=entry["isMovie"])),
                 "concurrent_fragment_downloads": 5,
-                "fragment_retries": 10
+                "fragment_retries": 40,
+                "sleep_fragments": 0.5
             }) as yld:
                 yld.download([ep["url"] for ep in episodes])
     else: 
         with yt_dlp.YoutubeDL({
             "outtmpl": os.path.join(path, filename(entry, None, isMovie=entry["isMovie"])),
             "concurrent_fragment_downloads": 10,
-            "fragment_retries": 10
+            "fragment_retries": 40,
+            "sleep_fragments": 0.5
         }) as yld:
             yld.download([entry["url"]]) 
 
