@@ -80,7 +80,7 @@ def download(entry: EntryData, episodes: List[EpisodeData] | None, path: str):
                 "outtmpl": os.path.join(path, filename(entry, ep, isMovie=entry["isMovie"])),
                 "concurrent_fragment_downloads": 5,
                 "fragment_retries": 40,
-                "sleep_fragments": 0.5
+                "retry_sleep_functions": 'fragment:15'
             }) as yld:
                 yld.download([ep["url"] for ep in episodes])
     else: 
@@ -88,7 +88,7 @@ def download(entry: EntryData, episodes: List[EpisodeData] | None, path: str):
             "outtmpl": os.path.join(path, filename(entry, None, isMovie=entry["isMovie"])),
             "concurrent_fragment_downloads": 10,
             "fragment_retries": 40,
-            "sleep_fragments": 0.5
+            "sleep_fragments": 5
         }) as yld:
             yld.download([entry["url"]]) 
 
