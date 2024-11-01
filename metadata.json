@@ -1,17 +1,17 @@
 {
-    "id": "3249",
-    "title": "Venom - La furia di Carnage",
-    "release_date": "20210930",
-    "timestamp": 1620976745.0,
+    "id": "391",
+    "title": "Spider-Man: Un nuovo universo",
+    "release_date": "20180101",
+    "timestamp": 1586478192.0,
     "modified_timestamp": 1730350804.0,
-    "description": "Dopo aver trovato un corpo ospite nel giornalista investigativo Eddie Brock, il simbionte alieno dovr\u00e0 affrontare un nuovo nemico, Carnage, alter ego del serial killer Cletus Kasady. Nella scena post credits del primo film, infatti, Eddie Brock in sella alla sua moto raggiunge la prigione di San Quentin per intervistare l'omicida. Durante il loro breve dialogo, Kasady preannuncia che riuscir\u00e0 a uscire dalla prigione e a compire una nuova carneficina. Il killer, infatti, riesce a evadere dal carcere, ospitando un simbionte alieno, il rosso Carnage, che seminer\u00e0 il terrore in citt\u00e0. Solo Brock e il suo Venom possono fermarlo.",
+    "description": "Miles Morales \u00e8 un ragazzo afro-ispanico di New York che \u00e8 appena entrato in una scuola relativamente esclusiva, dove per\u00f2 si sente fuori luogo. Qui infatti non conosce nessuno e suo padre, un poliziotto che detesta Spider-Man, non lo aiuta mettendolo in imbarazzo. Miles si rifugia dallo zio, che asseconda invece la sua passione da street artist, ma durante una escursione nei sotterranei di New York Miles viene morso da un ragno radioattivo. Il giorno dopo, sconvolto da sorprendenti poteri che somigliano a quelli di Spider-Man, torna a cercare il ragno e finisce per assistere a uno scontro tra l'eroe e vari villain, durante il quale un esperimento per aprire un varco dimensionale ha effetti imprevisti. Presto Miles scoprir\u00e0 che non c'\u00e8 un solo Uomo Ragno!",
     "playable_in_embed": true,
     "formats": [
         {
             "format_id": "1200",
             "format_index": null,
-            "url": "https://vixcloud.co/playlist/70997?type=video&rendition=480p&token=gKBn7xbKn-eCDOfa6a3W3g&expires=1735596229&b=1",
-            "manifest_url": "https://vixcloud.co/playlist/70997?b=1?&expires=1735596229",
+            "url": "https://vixcloud.co/playlist/146634?type=video&rendition=480p&token=TNGvEBCdevVZHXc-dOMmJw&expires=1735639377&edge=sc-u12-01",
+            "manifest_url": "https://vixcloud.co/playlist/146634?&expires=1735639377",
             "tbr": 1200.0,
             "ext": "mp4",
             "fps": null,
@@ -27,7 +27,7 @@
             "resolution": "854x480",
             "aspect_ratio": 1.78,
             "http_headers": {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36",
                 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
                 "Accept-Language": "en-us,en;q=0.5",
                 "Sec-Fetch-Mode": "navigate"
@@ -41,8 +41,8 @@
         {
             "format_id": "2150",
             "format_index": null,
-            "url": "https://vixcloud.co/playlist/70997?type=video&rendition=720p&token=NXjGxYaspPj98c4a-lPOvQ&expires=1735596229&b=1",
-            "manifest_url": "https://vixcloud.co/playlist/70997?b=1?&expires=1735596229",
+            "url": "https://vixcloud.co/playlist/146634?type=video&rendition=720p&token=A3foaRMVH7ZZ2Uk9on7WnA&expires=1735639377&edge=sc-u12-01",
+            "manifest_url": "https://vixcloud.co/playlist/146634?&expires=1735639377",
             "tbr": 2150.0,
             "ext": "mp4",
             "fps": null,
@@ -58,7 +58,7 @@
             "resolution": "1280x720",
             "aspect_ratio": 1.78,
             "http_headers": {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36",
                 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
                 "Accept-Language": "en-us,en;q=0.5",
                 "Sec-Fetch-Mode": "navigate"
@@ -70,40 +70,27 @@
             "format": "2150 - 1280x720"
         }
     ],
-    "subtitles": {
-        "ita": [
-            {
-                "url": "https://vixcloud.co/playlist/70997?type=subtitle&rendition=ita&token=8i7BpjWI8gYhrM_5WPuiyA&expires=1735596229&b=1",
-                "ext": "unknown_video"
-            }
-        ],
-        "eng": [
-            {
-                "url": "https://vixcloud.co/playlist/70997?type=subtitle&rendition=eng&token=8i7BpjWI8gYhrM_5WPuiyA&expires=1735596229&b=1",
-                "ext": "unknown_video"
-            }
-        ]
-    },
-    "webpage_url": "https://streamingcommunity.computer/watch/3249",
-    "original_url": "https://streamingcommunity.computer/watch/3249",
-    "webpage_url_basename": "3249",
+    "subtitles": {},
+    "webpage_url": "https://streamingcommunity.computer/watch/391",
+    "original_url": "https://streamingcommunity.computer/watch/391",
+    "webpage_url_basename": "391",
     "webpage_url_domain": "streamingcommunity.computer",
     "extractor": "StreamingCommunity",
     "extractor_key": "StreamingCommunity",
     "playlist": null,
     "playlist_index": null,
-    "display_id": "3249",
-    "fulltitle": "Venom - La furia di Carnage",
-    "upload_date": "20210514",
+    "display_id": "391",
+    "fulltitle": "Spider-Man: Un nuovo universo",
+    "upload_date": "20200410",
     "modified_date": "20241031",
-    "release_year": 2021,
+    "release_year": 2018,
     "requested_subtitles": null,
     "_has_drm": null,
-    "epoch": 1730412227,
+    "epoch": 1730455376,
     "format_id": "2150",
     "format_index": null,
-    "url": "https://vixcloud.co/playlist/70997?type=video&rendition=720p&token=NXjGxYaspPj98c4a-lPOvQ&expires=1735596229&b=1",
-    "manifest_url": "https://vixcloud.co/playlist/70997?b=1?&expires=1735596229",
+    "url": "https://vixcloud.co/playlist/146634?type=video&rendition=720p&token=A3foaRMVH7ZZ2Uk9on7WnA&expires=1735639377&edge=sc-u12-01",
+    "manifest_url": "https://vixcloud.co/playlist/146634?&expires=1735639377",
     "tbr": 2150.0,
     "ext": "mp4",
     "fps": null,
@@ -119,7 +106,7 @@
     "resolution": "1280x720",
     "aspect_ratio": 1.78,
     "http_headers": {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36",
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language": "en-us,en;q=0.5",
         "Sec-Fetch-Mode": "navigate"

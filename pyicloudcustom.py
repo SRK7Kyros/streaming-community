@@ -70,6 +70,7 @@ def cloudNestedDir(api: PyiCloudService, path: str | List[str]) -> DriveService:
     return reduce(operator.getitem, parts, api.drive)
 
 def upload(path: str, uploadPath: str, api: PyiCloudService):
+    api = getApi()
     cloudMakeDirs(api, uploadPath)
     if path not in cloudNestedDir(api, uploadPath).dir():
             while path not in cloudNestedDir(api, uploadPath).dir():
